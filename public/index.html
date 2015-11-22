@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='UTF-8'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,900|Lobster' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<div id='menu'>
+		<span id='menu-logo' class='noselect'>
+			Play<span id='menu-logo_second'>It</span>
+		</span>
+		<div id='menu-search_box'>
+			<input placeholder='Search artists, albums, songs'>
+			<i class='fa fa-search'></i>
+		</div>
+		<div id='menu-menu_items'>
+		<div class='menu-menu_item menu-menu_item_selected'>
+				<i class='fa fa-fw fa-home'></i>
+				<span>Home</span>
+			</div>
+			<div class='menu-menu_item'>
+				<i class='fa fa-fw fa-line-chart'></i>
+				<span>Charts</span>
+			</div>
+			<div class='menu-menu_item'>
+				<i class='fa fa-fw fa-cog'></i>
+				<span>Settings</span>
+			</div>
+		</div>
+		<div id='menu-song_playing'>
+			<img id='menu-song_playing-album_cover' src='http://ecx.images-amazon.com/images/I/71oNqpTxQML._SL1500_.jpg'>
+			<div id='menu-song_playing-song_name'>Listomania</div>
+			<div id='menu-song_playing-artist_name'>Phoenix</div>
+		</div>
+	</div>
+	<div id='app'>
+		
+	</div>
+	<div id='player' class='noselect'>
+		<div id='player-controller_buttons' class='pause'>
+			<i class='fa fa-step-backward' id='player-controller_buttons-backward'></i>
+			<i class='fa fa-pause'  id='player-controller_buttons-play_pause'></i>
+			<i class='fa fa-step-forward' id='player-controller_buttons-forward'></i>
+		</div>
+		<div id='player-slider'>
+			<span class='slider-song_completed'>--:--</span>
+			<div class='slider-full'>
+				<div class='slider-completed'></div>
+				<div class='slider-drag' draggable='false'></div>
+			</div>
+			&nbsp;&nbsp;<span class='slider-song_total'>--:--</span>
+		</div>
+		<div id='player-volume-slider'>
+			<i class='fa fa-fw fa-volume-up'></i>
+			<div class='slider-full'>
+				<div class='slider-completed'></div>
+				<div class='slider-drag' draggable='false'></div>
+			</div>
+		</div>
+	<script type='text/template' data-template='index'>
+		Home
+	</script>
+	<script type='text/template' data-template='search/:query'>
+		<h1 class='search-results_header'>Search results for '{{query}}'</h1>
+		<div class='search-header'>albums</div>
+		<div class='search-group'>
+			{{#each albums}}
+				<div class='album' title='{{this.title}}' style='background-image: url({{this.coverImage}})'>
+					<i class='fa fa-play'></i>
+				</div>
+			{{else}}
+				<span class="search-not-found">No albums found</span>
+			{{/each}}
+		</div>
+		<div class='search-header' rules='groups'>songs</div>
+		<div class='search-group'>
+			{{#if songs.length}}
+				<table class='songs'>
+					<thead>
+						<tr>
+							<th>song</th>
+							<th>album</th>
+							<th>artist</th>
+							<th>duration</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each songs}}
+							<tr>
+								<td>{{this.title}}</td>
+								<td>{{this.album.title}}</td>
+								<td>{{this.artist}}</td>
+								<td>{{this.duration}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			{{else}}
+				<span class="search-not-found">No songs found</span>
+			{{/if}}
+		</div>
+	</div>
+	</script>
+
+	<script type="text/javascript" src="/js/request.js"></script>
+	<script type="text/javascript" src="/js/handlebars.js"></script>
+	<script type="text/javascript" src="/js/player-controllers.js"></script>
+	<script type="text/javascript" src="/js/router.js"></script>
+	<script type="text/javascript" src="/js/script.js"></script>
+</body>
+</html>

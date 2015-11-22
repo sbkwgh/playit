@@ -1,0 +1,389 @@
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html, body {
+	width: 100%;
+	overflow: hidden;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
+}
+* {
+	box-sizing: border-box;
+}
+
+.search-results_header {
+	padding-left: 3rem;
+	font-weight: 400;
+	margin-bottom: 0.5rem;
+}
+.search-header {
+	font-variant: small-caps;
+	font-weight: 300;
+	font-size: 2rem;
+	color: #636363;
+	padding-left: 3rem;
+	margin-bottom: -1.5rem;
+}
+.search-not-found {
+	font-size: 1.2rem;
+	padding-left: 1rem;
+	padding-top: 1rem;
+}
+.search-group {
+	overflow-y: auto;
+	flex-wrap: wrap;
+	display: flex;
+	padding: 2rem;
+	padding-top: 1rem;
+	justify-content: space-between;
+}
+.album {
+	background-size: cover;
+	margin: 1rem;
+	height: 10rem;
+	vertical-align: top;
+	width: 10rem;
+	display: inline-block;
+	box-shadow: 0 0 0.15rem rgba(128, 128, 128, 0.59);
+	position: relative;
+	margin-bottom: 1.25rem;
+	transition: all 0.2s;
+}
+	.album::before {
+		content: attr(title);
+		position: absolute;
+		bottom: -1.3rem;
+		text-align: center;
+		width: 10rem;
+		font-size: 0.85rem;
+		font-weight: 300;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+	}
+	.album:hover {
+		box-shadow: 0 0 0.25rem rgba(128, 128, 128, 0.75);
+	}
+	.album:hover::after {
+		content: '';
+		display: inline-block;
+		top: 0;
+		left: 0;
+		position: absolute;
+		width: 10rem;
+		height: 10rem;
+		background-color: #4B4B4B;
+		z-index: 1;
+		opacity: 0.7;
+		z-index: 1;
+	}
+	.album i {
+		opacity: 0;
+		pointer-events: none;
+	}
+	.album.album-play i {
+		opacity: 1;
+		z-index: 3;
+		display: block;
+		text-align: center;
+		position: relative;
+		border: 0px solid white;
+		top: 3.5rem;
+		color: white;
+		cursor: pointer;
+	}
+		.album.album-play i:before {
+			opacity: 1;
+			content: "\00a0\f04b";
+			font-size: 3.9rem;
+			border: 2px solid #fff;
+			border-radius: 5rem;
+			width: 5rem;
+			margin-top: -1rem;
+			margin-left: 0.1rem;
+			line-height: 5rem;
+			height: 5rem;
+			display: inline-block;
+		}
+
+.songs {
+	width: calc(100% - 2rem);
+	border: 0px none;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin: 1rem;
+}
+	.songs thead {
+		border-bottom: 1px solid gray;
+		font-variant: small-caps;
+		border: 0;
+		cursor: default;
+	}
+		.songs th {
+			font-weight: normal;
+			font-size: 1.25rem;
+			border-bottom: 1px solid gray;
+			text-align: left;
+		}
+			.songs th:hover, .songs thead tr:hover{
+				text-decoration: none;
+			}
+	.songs tr {
+		font-size: 0.85rem;
+	}
+	.songs tr:nth-child(even) {
+		background-color: #F3F3F3;
+	}
+		.songs tr:hover {
+			text-decoration: underline;
+		}
+		.songs td {
+			cursor: pointer;
+			padding: 0.25rem 0;
+		}
+#menu {
+	width: 15rem;
+	height: calc(100% - 4rem);
+	border-right: solid thin gray;
+	overflow-y: auto;
+	float: left;
+	padding-top: 0.5rem;
+	transition: text-shadow 0.2s;
+}
+	#menu-logo {
+		font-family: "Lobster",sans-serif;
+		font-size: 2.5rem;
+		display: block;
+		text-align: center;
+		cursor: default;
+		color: #59ABE3;
+		text-shadow: -1px 1px 0.05rem #2E5896 !important;
+	}
+		#menu-logo_second {
+			color: #005E7B;
+		}
+		#menu-logo:hover {
+			/*text-shadow: -1px 1px 0.4rem #A9BCFF !important;*/
+		}
+	#menu-search_box {
+		position: relative;
+		padding: 0 0.5rem;
+		margin: 0.5rem 0;
+	}
+		#menu-search_box input {
+			border: 1px solid #B1B1B1;
+			border-radius: 1rem;
+			height: 1.75rem;
+			width: 100%;
+			padding: 0.3rem 0.5rem 0.3rem 1.3rem;
+			font-family: 'Roboto', sans-serif;
+		}
+			#menu-search_box input:focus, #menu-search_box input:hover {
+				outline: none;
+				box-shadow: 0px 0px 0.05rem 0.1rem rgba(228,228,228,0.75) inset;
+			}
+		
+			#menu-search_box input:-ms-input-placeholder {
+				font-style: italic;
+			}
+			#menu-search_box input::-moz-placeholder {
+				font-style: italic;
+			}
+			#menu-search_box input::-webkit-input-placeholder {
+				font-style: italic;
+			}
+		#menu-search_box i {
+			position: absolute;
+			cursor: default;
+
+			left: 0.875rem;
+			font-size: 0.95rem;
+			top: 0.39rem;
+			color: #6F6F6F;
+		}
+	#menu-menu_items {}
+		.menu-menu_item {
+			width: 100%;
+			color:;
+			padding: 0.125rem 1rem;
+			font-size: 1rem;
+			font-weight: 300;
+			cursor: default;
+		}
+			.menu-menu_item:hover {
+				background-color: #F3F3F3;
+			}
+			.menu-menu_item span {
+				cursor: pointer;
+				padding-left: 0.25rem;
+			}
+		.menu-menu_item_selected, .menu-menu_item_selected:hover {
+			background-color: #ddd;
+		}
+	#menu-song_playing {
+		height: 4rem;
+		width: 15rem;
+		position: absolute;
+		border-top: 1px solid gray;
+		bottom: 4rem;
+	}
+		#menu-song_playing-album_cover {
+			height: 4rem;
+			width: 4rem;
+			float: left;
+		}
+		#menu-song_playing-song_name,
+		#menu-song_playing-artist_name {
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			height: 2rem;
+			width: calc(100% - 4rem);
+			padding: 0.5rem;
+			padding-bottom: 0.25rem;
+			float: right;
+		}
+		#menu-song_playing-artist_name {
+			font-size: 0.9rem;
+			padding-bottom: 0.5rem;
+			padding-top: 0.25rem;
+			font-weight: 300;
+		}
+
+#app {
+	width: calc(100% - 15rem);
+	float: right;
+	height: calc(100% - 4rem);
+	overflow-y: auto;
+}
+
+#player {
+	width: 100%;
+	border-top: 1px solid #C0C0C0;
+	clear: both;
+	position: relative;
+	height: 4rem;
+	cursor: default;
+}
+	#player-controller_buttons {
+		display: inline-block;
+		margin-top: 0.75rem;
+		margin-left: 0.75rem;
+		color: #575A62;
+	}
+		#player-controller_buttons i {
+			transition: border-color 0.175s, color 0.175s, box-shadow 0.175s;
+		}
+		#player-controller_buttons.pause #player-controller_buttons-backward,
+		#player-controller_buttons.pause #player-controller_buttons-forward {
+				position: relative;
+				bottom: 0.18rem;
+		}
+		#player-controller_buttons.play #player-controller_buttons-backward,
+		#player-controller_buttons.play #player-controller_buttons-forward {
+				position: relative;
+				bottom: 0.3rem;
+		}
+
+		#player-controller_buttons-backward {
+			margin-right: 0.2rem;
+		}
+		#player-controller_buttons-forward {
+			margin-left: 0.2rem;
+			margin-right: 0.8rem;
+		}
+
+		#player-controller_buttons i {
+			cursor: pointer;
+		}
+			#player-controller_buttons-backward:hover,
+			#player-controller_buttons-play_pause:hover,
+			#player-controller_buttons-forward:hover {
+				color: #959595;
+			}
+		#player-controller_buttons-play_pause {
+			border-radius: 3rem;
+			border: 1px solid #808080;
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+				#player-controller_buttons-play_pause:hover {
+					border-color: #ABABAB;
+					color: #6F737B;
+					box-shadow: 0px 0px 0.125rem rgba(113,113,113,0.4);
+				}
+				#player-controller_buttons-play_pause:active {
+					color: #575A62;
+				}
+			#player-controller_buttons-play_pause.fa-play {
+				padding-left: 0.66rem;
+				font-size: 1.8rem;
+				padding-top: 0.32rem;
+			}
+			#player-controller_buttons-play_pause.fa-pause {
+				font-size: 1.5rem;
+				padding-left: 0.53rem;
+				padding-top: 0.44rem;
+			}
+	#player-slider {
+		bottom: 1.8rem;
+		display: block;
+		position: relative;
+		width: 80%;
+		left: 6rem;
+	}
+		#player-slider .slider-full {
+			width: 80%;
+		}
+	#player-volume-slider {
+		float: right;
+		position: absolute;
+		top: 1.5rem;
+		right: 1.5rem;
+	}
+		#player-volume-slider .slider-full {
+			width: 5rem;
+		}
+	.slider-full {
+		background-color: #D5D5D5;
+		border-radius: 1rem;
+		height: 0.25rem;
+		margin-bottom: 0.2rem;
+		display: inline-block;
+	}
+		.slider-completed {
+			width: 0;
+			height: 0.25rem;
+			background-color: #59ABE3;
+			position: absolute;
+			border-radius: 1rem;
+		}
+		.slider-drag {
+			width: 0.75rem;
+			border-radius: 1rem;
+			background-color: gray;
+			height: 0.75rem;
+			bottom: 0.25rem;
+			position: relative;
+		}
+			.slider-drag.slider-drag_focus::after {
+				content: '';
+				width: 0.4rem;
+				height: 0.4rem;
+				display: inline-block;
+				background-color: #FFF;
+				position: absolute;
+				color: white;
+				bottom: 0.175rem;
+				border-radius: 1rem;
+				left: 0.175rem;
+			}
