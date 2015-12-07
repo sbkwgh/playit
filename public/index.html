@@ -5,43 +5,50 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,900|Lobster' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/css/dark.css">
+	<title>PlayIt</title>
+	<link rel="shortcut icon" type="image/png" href="/img/PlayIt_logo_v3.png"/>
 </head>
 <body>
+	<div id='top_colour_bar'></div>
 	<div id='menu'>
-		<span id='menu-logo' class='noselect'>
+		<a id='menu-logo' href='#' class='noselect'>
 			Play<span id='menu-logo_second'>It</span>
-		</span>
+		</a>
 		<div id='menu-search_box'>
 			<input placeholder='Search artists, albums, songs'>
 			<i class='fa fa-search'></i>
 		</div>
+		<div class='menu-menu_header noselect'>general</div>
 		<div id='menu-menu_items'>
-		<div class='menu-menu_item menu-menu_item_selected'>
+		<div class='menu-menu_item' data-url=''>
 				<i class='fa fa-fw fa-home'></i>
 				<span>Home</span>
 			</div>
-			<div class='menu-menu_item'>
+			<div class='menu-menu_item' data-url='charts'>
 				<i class='fa fa-fw fa-line-chart'></i>
 				<span>Charts</span>
 			</div>
-			<div class='menu-menu_item'>
+			<div class='menu-menu_item' data-url='settings'>
 				<i class='fa fa-fw fa-cog'></i>
 				<span>Settings</span>
 			</div>
 		</div>
+		<div class='menu-menu_header noselect'>playlists</div>
+		<div id='playlists'></div>
 		<div id='menu-song_playing'>
-			<img id='menu-song_playing-album_cover' src='http://ecx.images-amazon.com/images/I/71oNqpTxQML._SL1500_.jpg'>
-			<div id='menu-song_playing-song_name'>Listomania</div>
-			<div id='menu-song_playing-artist_name'>Phoenix</div>
+			<img id='menu-song_playing-album_cover' src=''>
+			<div id='menu-song_playing-song_name'></div>
+			<div id='menu-song_playing-artist_name'></div>
 		</div>
 	</div>
 	<div id='app'>
 		
 	</div>
 	<div id='player' class='noselect'>
-		<div id='player-controller_buttons' class='pause'>
+		<div id='player-controller_buttons' class='play'>
 			<i class='fa fa-step-backward' id='player-controller_buttons-backward'></i>
-			<i class='fa fa-pause'  id='player-controller_buttons-play_pause'></i>
+			<i class='fa fa-play'  id='player-controller_buttons-play_pause'></i>
 			<i class='fa fa-step-forward' id='player-controller_buttons-forward'></i>
 		</div>
 		<div id='player-slider'>
@@ -59,15 +66,159 @@
 				<div class='slider-drag' draggable='false'></div>
 			</div>
 		</div>
+	<script type='text/template' id='playlists_template'>
+		{{#each playlists}} 
+			<div class='playlists-item menu-menu_item' data-url='playlist/{{this.id}}'>
+				{{this.title}}
+			</div>
+		{{else}}
+			<div id='playlists-no_playlists' class='noselect' title='Tap ... by a song to add one'>No playlists</div>	
+		{{/each}}
+	</script>
+	<script type='text/template' id='menu_template'>
+		{{#each items}} 
+			<div class='context_menu-item'>
+				{{this.title}}
+			</div>	
+		{{/each}}
+	</script>
+	<script type='text/template' id='menu_template-next_level'>
+		<div class='context_menu-next_level-back_header'>
+			<i class='context_menu-next_level-back_header-icon fa fa-chevron-left'></i>
+			<span class='context_menu-next_level-back_header-header'>{{header}}</span>
+		</div>
+		{{#each items}} 
+			<div class='context_menu-item'>
+				{{{this.title}}}
+			</div>	
+		{{/each}}
+	</script>
+	<script type='text/template' data-template='settings'>
+		<input style='margin-left:1rem' type='checkbox'><label></label>
+	</script>
 	<script type='text/template' data-template='index'>
-		Home
+		<h1 class='search-results_header'>Home</h1>
+		<div class='search-header'>top new albums</div>
+		<div class='search-group'>
+			{{#each albums}}
+				<div class='album' data-album-id={{this.id}} title='{{this.title}}' style='background-image: url({{this.coverImage}})'>
+					<i class='fa fa-play'></i>
+				</div>
+			{{else}}
+				<span class="search-not-found-borderless">No top albums at the moment :(</span>
+			{{/each}}
+		</div>
+		<div class='search-header'>recently played</div>
+		<div class='search-group'>
+			{{#each recentlyPlayed}}
+				<div class='album' data-album-id='{{this.id}}' title='{{this.title}}' style='background-image: url({{this.coverImage}})'>
+					<i class='fa fa-play'></i>
+				</div>
+			{{else}}
+				<span class="search-not-found-borderless">No recently played albums - (time to get the music flowing)</span>
+			{{/each}}
+		</div>
+	</script>
+	<script type='text/template' data-template='playlist/:id'>
+		<div class='search-group'>
+			{{#if error}}
+				<span class="search-not-found">Error: invalid playlist id</span>
+			{{else}}
+			<div class='album_header'>
+				<div class='album_header_background'></div>
+				<div class='album_header_background-image '></div>
+				<img src='data:image/png;base64,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' class='album_header-album'></img>
+				<div class='album_header-right'>
+					<div class='album_header-right-title'>{{title}}</div>
+					<div class='album_header-right-info'>
+						<div class='button btn-red delete-playlist'>
+							<i class='fa fa-trash-o'></i>
+							Delete playlist
+						</div>
+					</div>
+				</div>
+			</div>
+			{{/if}}
+			{{#if songs.length}}
+				<table class='songs'>
+					<thead>
+						<tr>
+							<th></th>
+							<th>song</th>
+							<th>album</th>
+							<th>artist</th>
+							<th>duration</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each songs}}
+							<tr data-id='{{../id}}' data-cover_image='{{this.coverImage}}'>
+								<td><i data-index='{{@index}}' class='song_more song_more_playlist fa fa-ellipsis-h'></i></td>
+								<td>{{this.title}}</td>
+								<td>{{this.album}}</td>
+								<td>{{this.artist}}</td>
+								<td>{{this.minutes}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			{{else}}
+				<span class="search-not-found">No songs in playlist yet</span>
+			{{/if}}
+		</div>
+	</script>
+	<script type='text/template' data-template='album/:id'>
+		<div class='search-group'>
+			{{#if error}}
+				<span class="search-not-found">Error: invalid album id</span>
+			{{else}}
+			<div class='album_header'>
+				<div class='album_header_background'></div>
+				<div class='album_header_background-image '></div>
+				<img src='{{coverImage}}' class='album_header-album'></img>
+				<div class='album_header-right'>
+					<div class='album_header-right-title'>{{title}}</div>
+					<div class='album_header-right-info'>
+						By {{artist}}, {{releaseDate}}
+						<br/>{{songs.length}} tracks - {{totalTime}} minutes
+					</div>
+				</div>
+			</div>
+			{{/if}}
+			{{#if songs.length}}
+				<table class='songs'>
+					<thead>
+						<tr>
+							<th></th>
+							<th>song</th>
+							<th>album</th>
+							<th>artist</th>
+							<th>duration</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each songs}}
+							<tr data-cover_image='{{../coverImage}}'>
+								<td><i class='song_more song_more_album fa fa-ellipsis-h'></i></td>
+								<td>{{this.title}}</td>
+								<td>{{this.album.title}}</td>
+								<td>{{this.artist}}</td>
+								<td>{{this.minutes}}</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			{{else}}
+				<span class="search-not-found">No songs found</span>
+			{{/if}}
+		</div>
 	</script>
 	<script type='text/template' data-template='search/:query'>
 		<h1 class='search-results_header'>Search results for '{{query}}'</h1>
 		<div class='search-header'>albums</div>
 		<div class='search-group'>
 			{{#each albums}}
-				<div class='album' title='{{this.title}}' style='background-image: url({{this.coverImage}})'>
+				<div class='album' data-album-id={{this.id}} title='{{this.title}}' style='background-image: url({{this.coverImage}})'>
 					<i class='fa fa-play'></i>
 				</div>
 			{{else}}
@@ -80,6 +231,7 @@
 				<table class='songs'>
 					<thead>
 						<tr>
+							<th></th>
 							<th>song</th>
 							<th>album</th>
 							<th>artist</th>
@@ -88,7 +240,8 @@
 					</thead>
 					<tbody>
 						{{#each songs}}
-							<tr>
+							<tr data-id='{{this.album.id}}'  data-cover_image='{{this.album.coverImage}}'>
+								<td></td>
 								<td>{{this.title}}</td>
 								<td>{{this.album.title}}</td>
 								<td>{{this.artist}}</td>
@@ -104,8 +257,10 @@
 	</div>
 	</script>
 
-	<script type="text/javascript" src="/js/request.js"></script>
 	<script type="text/javascript" src="/js/handlebars.js"></script>
+	<script type="text/javascript" src="/js/store.js"></script>
+	<script type="text/javascript" src="/js/request.js"></script>
+	<script type="text/javascript" src="/js/youtube.js"></script>
 	<script type="text/javascript" src="/js/player-controllers.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
 	<script type="text/javascript" src="/js/script.js"></script>

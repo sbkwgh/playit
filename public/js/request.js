@@ -1,6 +1,5 @@
 var Request = {};
 Request.serializeData = function(object) {
-
 	var temp = '';
 	var serializedString = '';
 	for(var key in object) {
@@ -12,7 +11,6 @@ Request.serializeData = function(object) {
 		}
 		serializedString += temp;
 	}
-
 	return serializedString.slice(1);
 };
 Request.request = function(method, url, data, cb) {
