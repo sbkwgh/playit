@@ -233,6 +233,6 @@ app.get('/api/topAlbums', function(req, res) {
 	})
 })
 
-app.listen(3000, function() {
-	console.log('Listening at port 3000');
+app.listen(process.env.PORT || 3000, function() {
+	console.log('Listening at port ' + process.env.PORT || 3000);
 })
