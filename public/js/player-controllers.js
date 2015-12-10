@@ -213,4 +213,19 @@ var slider = new Slider(document.querySelector('#player-slider'), function(perce
 
 	} 
 })
-var volume = new Slider(document.querySelector('#player-volume-slider'));
+var volume = new Slider(document.querySelector('#player-volume-slider'), function(percent) {
+	if(YouTube.player && YouTube.player.setVolume) {
+		YouTube.player.setVolume(Math.round(percent));
+	}
+});
+volume.completed.percent = 50;
+
+document.querySelector('#player-volume-slider i').addEventListener('click', function(ev) {
+	if(ev.target.classList.contains('fa-volume-up')) {
+		ev.target.setAttribute('class', 'fa fa-fw fa-volume-down')
+	}
+	if(ev.target.classList.contains('fa-volume-down')) {
+		ev.target.classList.add('fa-volume-up');
+		ev.target.classList.remove('fa-volume-down');
+	}
+});

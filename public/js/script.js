@@ -315,6 +315,17 @@ app.addRoute('/settings', function(templateContainer, templateHTML, data, done) 
 		done();
 	}
 });
+app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
+	var template = Handlebars.compile(templateHTML);
+	Request.get('/api/charts', {}, function(charts) {
+		templateContainer.innerHTML = template({songs: charts});
+	})
+}, function(done) {
+	YouTube.init();
+	YouTube.continueCb = function() {
+		done();
+	}
+});
 app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done) {
 	var template = Handlebars.compile(templateHTML);
 

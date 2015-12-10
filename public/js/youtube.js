@@ -144,6 +144,7 @@ var PlayQueue = new (function() {
 		YouTube.createPlayer(nextUp.id, function() {
 			var albumArt = nextUp.coverImage;
 			slider.songLength.completed = 0;
+			YouTube.player.setVolume(volume.completed.percent);
 			slider.songLength.total = YouTube.player.getDuration();
 			CurrentPlaying.artist = nextUp.artist;
 			CurrentPlaying.song = nextUp.song;

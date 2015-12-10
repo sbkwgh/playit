@@ -1,5 +1,7 @@
 var express = require('express');
+var cheerio = require('cheerio');
 var https = require('https');
+var http = require('http');
 var path = require('path');
 
 var app = express();
@@ -16,11 +18,56 @@ function getHTTPSJSON(url, cb) {
 	})
 }
 
+function getHTTPHTML(url, cb) {
+	http.get(url, function(res) {
+		var chunks = [];
+
+		res.on('data', function(chunk) {
+			chunks.push(chunk);
+		});
+		res.on('end', function() {
+			var htmlStr = chunks.join('');
+			var $ = cheerio.load(htmlStr);
+			cb($);
+		})
+	})
+}
+
 
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '../public', 'index.html'));
+})
+
+app.get('/api/charts', function(req, res) {
+	getHTTPHTML('http://www.bbc.co.uk/radio1/chart/singles/print', function($) {
+		var tr = $('tr').slice(1);
+		var retItems = [];
+		tr.each(function(i, el) {
+			var td = $(this).find('td');
+			var statusPolarityStr = $(td[1]).text().split(' ')[0];
+			var statusPolarity;
+			
+			if(statusPolarityStr === 'up') {
+				statusPolarity = 1;
+			} else if(statusPolarityStr === 'down') {
+				statusPolarity = -1;
+			} else {
+				statusPolarity = 0;
+			}
+
+			retItems.push({
+				position: i+1,
+				statusPolarity: statusPolarity,
+				status: $(td[1]).text(),
+				artist: $(td[4]).text(),
+				title: $(td[5]).text()
+			})
+		});
+
+		res.json(retItems)
+	});
 })
 
 app.get('/api/coverimage', function(req, res) {

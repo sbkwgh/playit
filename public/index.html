@@ -213,6 +213,38 @@
 			{{/if}}
 		</div>
 	</script>
+	<script type='text/template' data-template='charts'>
+		<h1 class='search-header' rules='groups'>uk chart positions</h1>
+			<div class='search-group'>
+				{{#if songs.length}}
+					<table class='songs'>
+						<thead>
+							<tr>
+								<th>position</th>
+								<th>song</th>
+								<th>artist</th>
+							</tr>
+						</thead>
+						<tbody>
+							{{#each songs}}
+								<tr data-id='{{this.album.id}}' class='charts' data-cover_image='{{this.album.coverImage}}'>
+									<td class='charts-movement_holder'>
+										<div class='charts-movement charts-movement_{{this.statusPolarity}}'>
+											{{this.position}}
+										</div>
+									</td>
+									<td>{{this.title}}</td>
+									<td>{{this.artist}}</td>
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				{{else}}
+					<span class="search-not-found">No songs found</span>
+				{{/if}}
+			</div>
+		</div>
+	</script>
 	<script type='text/template' data-template='search/:query'>
 		<h1 class='search-results_header'>Search results for '{{query}}'</h1>
 		<div class='search-header'>albums</div>
