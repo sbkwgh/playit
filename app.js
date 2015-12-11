@@ -41,13 +41,34 @@ app.get('/', function(req, res) {
 })
 
 app.get('/api/charts', function(req, res) {
-	getHTTPHTML('http://www.bbc.co.uk/radio1/chart/singles/print', function($) {
+	var doneCount = 0;
+	var doneTotal;
+	var retItems = [];
+
+	function done(item) {
+		doneCount++;
+
+		item.artist;
+
+		retItems[item.position-1] = item
+
+		if(doneCount === doneTotal) {
+			res.json(retItems)
+		}
+	}
+
+
+	getHTTPHTML('http://www.bbc.co.uk/radio1/chart/albums/print', function($) {
 		var tr = $('tr').slice(1);
-		var retItems = [];
+
+		doneTotal = tr.length;
+
 		tr.each(function(i, el) {
 			var td = $(this).find('td');
 			var statusPolarityStr = $(td[1]).text().split(' ')[0];
 			var statusPolarity;
+			var retItem;
+			var albumURL;
 			
 			if(statusPolarityStr === 'up') {
 				statusPolarity = 1;
@@ -57,16 +78,31 @@ app.get('/api/charts', function(req, res) {
 				statusPolarity = 0;
 			}
 
-			retItems.push({
+			retItem = {
 				position: i+1,
 				statusPolarity: statusPolarity,
 				status: $(td[1]).text(),
 				artist: $(td[4]).text(),
 				title: $(td[5]).text()
-			})
-		});
+			};
 
-		res.json(retItems)
+			albumURL =
+				'https://api.spotify.com/v1/search?q=' +
+				'album:' + encodeURIComponent(retItem.title) +
+				'%20artist:' + encodeURIComponent(retItem.artist) +
+				'&type=album';
+
+			getHTTPSJSON(albumURL, function(albumResults) {
+				var results = albumResults.albums.items;
+				if(results.length) {
+					retItem.id = results[0].id;
+					retItem.coverImage = results[0].images[2].url;
+				}
+
+				done(retItem);
+			});
+
+		});
 	});
 })
 

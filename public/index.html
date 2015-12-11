@@ -221,17 +221,25 @@
 						<thead>
 							<tr>
 								<th>position</th>
-								<th>song</th>
+								<th>album</th>
+								<th></th>
 								<th>artist</th>
 							</tr>
 						</thead>
 						<tbody>
 							{{#each songs}}
-								<tr data-id='{{this.album.id}}' class='charts' data-cover_image='{{this.album.coverImage}}'>
+								<tr data-id='{{this.id}}' class='{{#unless this.id}}charts-unavailable {{/unless}}charts' data-cover_image='{{this.album.coverImage}}'>
 									<td class='charts-movement_holder'>
 										<div class='charts-movement charts-movement_{{this.statusPolarity}}'>
 											{{this.position}}
 										</div>
+									</td>
+									<td>
+										{{#if this.coverImage}}
+											<img src='{{this.coverImage}}'>
+										{{else}}
+											<img class='no_image'>
+										{{/if}}
 									</td>
 									<td>{{this.title}}</td>
 									<td>{{this.artist}}</td>
@@ -240,7 +248,7 @@
 						</tbody>
 					</table>
 				{{else}}
-					<span class="search-not-found">No songs found</span>
+					<span class="search-not-found">No albums found - this is probably an error on our side</span>
 				{{/if}}
 			</div>
 		</div>
@@ -288,6 +296,14 @@
 		</div>
 	</div>
 	</script>
+	<script type="text/template" data-template='404/:route'>
+		<div id='errPage'>
+			<h1>Unfortunately, the page <b><pre>{{route}}</pre></b> does not exist.</h1>
+			<p>The link might have been mistyped, or the page could have been deleted.</p>
+			<p><a href='#'>Click here to go home</a></p>
+			<p>(or alternatively, why not search for something to listen to?)</p>
+		</div>
+	</script>
 
 	<script type="text/javascript" src="/js/handlebars.js"></script>
 	<script type="text/javascript" src="/js/store.js"></script>
@@ -295,6 +311,9 @@
 	<script type="text/javascript" src="/js/youtube.js"></script>
 	<script type="text/javascript" src="/js/player-controllers.js"></script>
 	<script type="text/javascript" src="/js/router.js"></script>
+	<script type="text/javascript" src="/js/menu.js"></script>
 	<script type="text/javascript" src="/js/script.js"></script>
+	<script type="text/javascript" src="/js/routes.js"></script>
+	<script type="text/javascript" src="/js/eventListeners.js"></script>
 </body>
 </html>

@@ -131,6 +131,28 @@ html, body {
 	box-sizing: border-box;
 }
 
+#errPage {
+	background: url(/img/logoGradient.png);
+	background-size: cover;
+	filter: saturate(0.5);
+	-webkit-filter: saturate(0.5);
+	color: #fff;
+	overflow: hidden;
+	padding: 0 2rem;
+	height: 100%;
+}
+	#errPage pre {
+		display: inline-block;
+	}
+	#errPage a {
+		color: #fff;
+		font-weight: bold;
+	}
+	#errPage p {
+		font-size: 1.25rem;
+		margin: 0.5rem 2rem;
+	}
+
 #top_colour_bar {
 	width: 100%;
 	position: fixed;
@@ -569,6 +591,7 @@ html, body {
 	float: right;
 	height: calc(100% - 4rem);
 	overflow-y: auto;
+	padding-top: 3px;
 }
 
 #player {
@@ -693,6 +716,15 @@ html, body {
 				left: 0.175rem;
 			}
 
+.charts-unavailable {
+	pointer-events: none;
+	opacity: 0.25;
+	filter: saturate(0);
+	-webkit-filter: saturate(0);
+}
+.charts td:nth-child(2) {
+	width: 4.75rem;
+}
 	.charts-movement {
 		border-radius: 2rem;
 		text-align: center;
@@ -719,7 +751,9 @@ html, body {
 				display: inline-block;
 			}
 		.charts-movement_0 {
-			background-color: #ABABAB;;
+			background: transparent url("/img/logoGradient_v2.png") repeat scroll 60% center;
+			filter: saturate(0.75);
+			-webkit-filter: saturate(0.75);
 		}	
 		.charts-movement_-1 {
 			background-color: #FF567A;

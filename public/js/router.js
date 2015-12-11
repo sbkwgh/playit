@@ -28,7 +28,8 @@ var Router = function(templateContainer) {
 			var template = document.querySelector('script[data-template="' + (routeHandler || {}).templateName + '"]');
 
 			if(!hash || !routeHandler || !template) {
-				self.templateContainer.innerHTML = '404';
+				if(hash[0] === '/') hash = hash.slice(1);
+				location.hash = '404/' + hash;
 			} else {
 				if(routeHandler.handler.onLoad && event === 'load') {
 					routeHandler.handler.onLoad(function() {
