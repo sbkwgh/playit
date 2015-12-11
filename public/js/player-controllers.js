@@ -110,6 +110,10 @@ function Slider(el, sliderChangeValue) {
 		},
 		get percent() {
 			return self.el.completed.clientWidth / self.el.full.clientWidth * 100;
+		},
+		set percent(val) {
+			self.el.drag.style.left = volume.el.full.clientWidth * val/100 + 'px';
+			self.el.completed.style.width = volume.el.full.clientWidth * val/100 + 'px';
 		}
 	};
 	this.songLength = {

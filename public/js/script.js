@@ -14,6 +14,7 @@ function addHiddenAlbums(albumHolder) {
 	}
 
 	albums = albumHolder.querySelectorAll('.album');
+	if(!albums[albums.length-1]) return;
 	while(
 		albums[albums.length-1].getBoundingClientRect().bottom ===
 		albumHolder.querySelectorAll('.album')[albumHolder.querySelectorAll('.album').length-1].getBoundingClientRect().bottom
