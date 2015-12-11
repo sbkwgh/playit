@@ -105,7 +105,7 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 			return playlists.tooltipPlaylists
 		},
 		'Add to a new playlist': {
-			'<input class="" id="new_playlist-input"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
+			'<input class="" id="new_playlist-input" placeholder="Playlist name"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
 		}
 	});
 		setBgColFromImgBorder(document.querySelector('.album_header-album').src, '.album_header')

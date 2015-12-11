@@ -94,7 +94,17 @@
 		{{/each}}
 	</script>
 	<script type='text/template' data-template='settings'>
-		<input style='margin-left:1rem' type='checkbox'><label></label>
+		<div id='settings'>
+			<div class='search-header'>settings</div>
+			<p>
+				<div class='button' id='settings-delete-recently_played'><i class='fa fa-fw fa-clock-o'></i>Clear recently played items</div>
+				<span class='settings-success' id='settings-delete-recently_played_success'>Succesfully cleared recently played</span>
+			</p>
+			<p>
+				<div class='button btn-red' id='settings-delete-playlists'><i class='fa fa-fw fa-trash-o'></i>Delete all playlists</div>
+				<span class='settings-success' id='settings-delete-playlists_success'>Succesfully deleted playlists</span>
+			</p>
+		</div>
 	</script>
 	<script type='text/template' data-template='index'>
 		<h1 class='search-results_header'>Home</h1>

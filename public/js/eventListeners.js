@@ -101,3 +101,29 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 		}
 	}
 })
+
+document.querySelector('#app').addEventListener('click', function(ev) {
+	if(ev.target.id === 'settings-delete-recently_played') {
+		delete localStorage.recentlyPlayed;
+		document.querySelector('#settings-delete-recently_played_success').style.opacity = '1';
+		setTimeout(function() {
+			document.querySelector('#settings-delete-recently_played_success').style.opacity = '0';
+		}, 3000);
+	}
+})
+document.querySelector('#app').addEventListener('click', function(ev) {
+	if(ev.target.id === 'settings-delete-playlists') {
+		var deletePlaylists = confirm('Are you sure you want to delete playlists? This action cannot be undone.');
+		if(deletePlaylists) {
+			var playlistItems = playlists.playlists;
+			for(var i = 0; i < playlistItems.length; i++) {
+				playlists.remove(i);
+			}
+
+			document.querySelector('#settings-delete-playlists_success').style.opacity = '1';
+			setTimeout(function() {
+				document.querySelector('#settings-delete-playlists_success').style.opacity = '0';
+			}, 2000);
+		}
+	}
+})
