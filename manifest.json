@@ -5,7 +5,7 @@
 
 	"description": "PlayIt Music is a free music streaming service. Create playlists, and listen to your favourite tunes",
 	"icons":  {
-		"128": "PlayIt_logo_v4.png"
+		"128": "PlayIt_logo_v5.png"
 	},
 	"app": {
 		"launch": {
