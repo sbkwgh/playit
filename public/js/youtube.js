@@ -194,7 +194,45 @@ var PlayQueue = new (function() {
 
 			self.highlightPlayingSong();
 		}
-	}
+	};
+	Object.defineProperty(this, 'tooltipQueue', {
+		get: function() {
+			var retObj = {};
+			var queue = self.queue;
+
+			function addFunc(item, i) {
+				var htmlStr; 
+				if(i === self.currentPosition) {
+					htmlStr = '<table><tr class="playqueue-table currently_playing">';
+				} else {
+					htmlStr = '<table><tr class="playqueue-table">';
+				}
+				
+				htmlStr+=
+					'<td><img src=' + item.coverImage + '></td>' +
+					'<td>' +
+					item.song +
+					'<br/><i>' +
+					item.artist +
+					'</i></td>' +
+					'</tr></table>';
+
+				retObj[htmlStr] = function(ev) {
+					ev.removeContextMenu();
+					if(item.albumId) location.hash = 'album/' + item.albumId;
+				}
+			}
+
+			for(var i = 0; i < queue.length; i++) {
+				var item = queue[i];
+				addFunc(item, i);
+			}
+			if(!Object.keys(retObj).length) {
+				retObj['Nothing in the queue'] = function(){};
+			}
+			return retObj;
+		}
+	});
 });
 
 var YouTube = new YouTubeFactory(PlayQueue.playerStateChange);

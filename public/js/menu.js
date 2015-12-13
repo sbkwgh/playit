@@ -18,6 +18,13 @@ var Menu = function(queryString, objParams) {
 	}
 
 	this.params = objParams;
+	if(typeof self.params === 'function') {
+		Object.defineProperty(this, 'params', {
+			get: function() {
+				return objParams();
+			}
+		})
+	}
 
 	this.getParamsArr = function(params) {
 		var paramsArr = [];
@@ -132,6 +139,15 @@ var Menu = function(queryString, objParams) {
 		document.querySelector('#app').appendChild(div);
 		div.style.left = coords.left + ev.target.offsetWidth/2 - div.offsetWidth/2 + 'px';
 		div.style.top = coords.bottom + 'px';
+
+		div.querySelector('.context_menu-arrow-gray').style.left = div.getBoundingClientRect().left + div.offsetWidth / 2 - 9 + 'px';
+		div.querySelector('.context_menu-arrow-white').style.left = div.getBoundingClientRect().left + div.offsetWidth / 2 - 7 + 'px';
+		if(div.getBoundingClientRect().bottom > document.body.getBoundingClientRect().bottom) {
+			div.classList.add('flip')
+			div.style.top = coords.top - div.offsetHeight - 0.5*16 + 'px';
+			div.querySelector('.context_menu-arrow-gray').style.top = div.getBoundingClientRect().bottom - 2 + 'px';
+			div.querySelector('.context_menu-arrow-white').style.top = div.getBoundingClientRect().bottom - 3 + 'px';
+		}
 		div.target = ev.target;
 		ev.preventDefault();
 	});

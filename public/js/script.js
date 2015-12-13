@@ -100,3 +100,6 @@ function setBgColFromImgBorder(url, queryString) {
 }
 
 CurrentPlaying.clear();
+Menu('#play_queue', function() {
+	return PlayQueue.tooltipQueue
+})

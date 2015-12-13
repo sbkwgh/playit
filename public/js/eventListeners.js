@@ -53,7 +53,11 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 	if(ev.target.parentElement.classList.contains('charts')) {
 		location.hash = 'album/' + ev.target.parentElement.getAttribute('data-id');
 	}
-	if(ev.target.tagName === 'TD' && !ev.target.parentElement.classList.contains('charts')) {
+	if(
+		ev.target.tagName === 'TD' && 
+		!ev.target.parentElement.classList.contains('charts') &&
+		!ev.target.parentElement.classList.contains('playqueue-table') 
+	) {
 		var tr = ev.target.parentElement;
 		var table = ev.target.parentElement.parentElement;
 		var trs = table.querySelectorAll('tr');

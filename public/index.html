@@ -59,6 +59,10 @@
 			</div>
 			&nbsp;&nbsp;<span class='slider-song_total'>--:--</span>
 		</div>
+		<div id='play_queue'>
+			<i class='fa fa-bars'></i>
+			<span>queue</span>
+		</div>
 		<div id='player-volume-slider'>
 			<i class='fa fa-fw fa-volume-up'></i>
 			<div class='slider-full'>
@@ -76,9 +80,11 @@
 		{{/each}}
 	</script>
 	<script type='text/template' id='menu_template'>
+		<div class='context_menu-arrow-gray'></div>
+		<div class='context_menu-arrow-white'></div>
 		{{#each items}} 
 			<div class='context_menu-item'>
-				{{this.title}}
+				{{{this.title}}}
 			</div>	
 		{{/each}}
 	</script>
@@ -326,14 +332,15 @@
 	<script type="text/javascript" src="/js/routes.js"></script>
 	<script type="text/javascript" src="/js/eventListeners.js"></script>
 		<script>
-	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		if(location.href !== "http://localhost:3000/") {
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-71303183-1', 'auto');
-	  ga('send', 'pageview');
-
+			ga('create', 'UA-71303183-1', 'auto');
+			ga('send', 'pageview');
+		}
 	</script>
 </body>
 </html>

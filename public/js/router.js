@@ -27,7 +27,7 @@ var Router = function(templateContainer) {
 			routeHandler = self.getRouteHandlerFromRoute(hash);
 			var template = document.querySelector('script[data-template="' + (routeHandler || {}).templateName + '"]');
 
-			ga('send', 'pageview', '/' + hash);
+			if('ga' in window) ga('send', 'pageview', '/' + hash);
 
 			if(!hash || !routeHandler || !template) {
 				if(hash[0] === '/') hash = hash.slice(1);
