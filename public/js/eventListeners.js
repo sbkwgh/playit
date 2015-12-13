@@ -158,3 +158,32 @@ document.querySelector('#shuffle_queue').addEventListener('click', function() {
 	PlayQueue.currentPosition = 0;
 	PlayQueue.queue = retArr;
 });
+
+document.querySelector('#app').addEventListener('click', function(ev) {
+	if(ev.target.id === 'new_playlist-button') {
+		var contextMenu = ev.target.parentElement.parentElement.parentElement;
+		var i = contextMenu.target;
+		var tr = i.parentElement.parentElement;
+		var td = tr.querySelectorAll('td');
+
+		var title = document.querySelector('#new_playlist-input').value.trim();
+		if(!title.length) return;
+
+		var playlist = {
+			title: title,
+			songs: [
+				{
+					coverImage: tr.getAttribute('data-cover_image'),
+					title: td[1].innerHTML,
+					minutes: td[4].innerHTML,
+					album: td[2].innerHTML,
+					artist: td[3].innerHTML
+				}
+			]
+		};
+
+		playlists.add(playlist);
+
+		contextMenu.removeContextMenu();
+	}
+})

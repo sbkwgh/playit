@@ -1,11 +1,13 @@
 var app = new Router(document.querySelector('#app'));
 app.addRoute('/search/:query', function(templateContainer, templateHTML, data, done) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
 
 	Request.get('/api/search', {q: data.query}, function(musicData) {
 		musicData.query = decodeURIComponent(data.query);
 		templateContainer.innerHTML = template(musicData);
 		addHiddenAlbums('.search-group');
+		document.querySelector('#loading').classList.add('loading-hidden');
 		PlayQueue.highlightPlayingSong();
 	})
 }, function(done) {
@@ -33,9 +35,11 @@ app.addRoute('/404/:route', function(templateContainer, templateHTML, data, done
 	}
 });
 app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
 	Request.get('/api/charts', {}, function(charts) {
 		templateContainer.innerHTML = template({songs: charts});
+		document.querySelector('#loading').classList.add('loading-hidden');
 	})
 }, function(done) {
 	YouTube.init();
@@ -44,6 +48,7 @@ app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
 	}
 });
 app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
 
 	Request.get('/api/album/' + data.id, {}, function(albumData) {
@@ -72,42 +77,17 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 			return song;
 		})
 		templateContainer.innerHTML = template(albumData);
-		document.querySelector('#app').addEventListener('click', function(ev) {
-			if(ev.target.id === 'new_playlist-button') {
-				var contextMenu = ev.target.parentElement.parentElement.parentElement;
-				var i = contextMenu.target;
-				var tr = i.parentElement.parentElement;
-				var td = tr.querySelectorAll('td');
+		document.querySelector('#loading').classList.add('loading-hidden');
 
-				var title = document.querySelector('#new_playlist-input').value.trim();
-				if(!title.length) return;
-
-				var playlist = {
-					title: title,
-					songs: [
-						{
-							coverImage: tr.getAttribute('data-cover_image'),
-							title: td[1].innerHTML,
-							minutes: td[4].innerHTML,
-							album: td[2].innerHTML,
-							artist: td[3].innerHTML
-						}
-					]
-				};
-
-				playlists.add(playlist);
-
-				contextMenu.removeContextMenu();
-			}
-		})
 		var songMore = new Menu('td .song_more.song_more_album', {
-		'Add to current playlist': function() {
-			return playlists.tooltipPlaylists
-		},
-		'Add to a new playlist': {
-			'<input class="" id="new_playlist-input" placeholder="Playlist name"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
-		}
-	});
+			'Add to current playlist': function() {
+				return playlists.tooltipPlaylists
+			},
+			'Add to a new playlist': {
+				'<input class="" id="new_playlist-input" placeholder="Playlist name"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
+			}
+		});
+		
 		setBgColFromImgBorder(document.querySelector('.album_header-album').src, '.album_header')
 		PlayQueue.highlightPlayingSong();
 	})
@@ -118,12 +98,14 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 	}
 });
 app.addRoute('index', function(templateContainer, templateHTML, data) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
 	Request.get('/api/topAlbums', {}, function(topAlbums) {
 		var template = Handlebars.compile(templateHTML);
 		templateContainer.innerHTML = template({albums: topAlbums, recentlyPlayed: store.get('recentlyPlayed')});
 		addHiddenAlbums('.search-group');
 		addHiddenAlbums('.search-group:last-child');
 		PlayQueue.highlightPlayingSong();
+		document.querySelector('#loading').classList.add('loading-hidden');
 	})
 }, function(done) {
 	YouTube.init();

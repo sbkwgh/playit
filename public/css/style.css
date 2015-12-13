@@ -136,6 +136,34 @@ html, body {
 	box-sizing: border-box;
 }
 
+.loading-hidden #loading-cover, .loading-hidden #loading-icon {
+	opacity: 0;
+	pointer-events: none;
+	transiton: all 0.5s;
+}
+#loading {
+	opacity: 1;
+	transiton: all 0.5s;
+}
+#loading-cover {
+	width: calc(100% - 15rem);
+	height: calc(100% - 4rem);
+	top: 0;
+	left: 15rem;
+	position: fixed;
+	z-index: 8;
+	background-color: black;
+	opacity: 0.5;
+}
+#loading-icon {
+	font-size: 3rem;
+	position: absolute;
+	left: calc((100% - 7.5rem) / 2 + 7.5rem);
+	top: calc((100% - 2rem) / 2 - 2rem);
+	color: #fff;
+	z-index: 21;
+}
+
 #new_playlist-input {
 	width: 9.2rem;
 	border-radius: 0.2rem;
