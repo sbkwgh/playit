@@ -131,3 +131,30 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 		}
 	}
 })
+
+document.querySelector('#shuffle_queue').addEventListener('click', function() {
+	var queue = PlayQueue.queue;
+	var currentItem = PlayQueue.queue[PlayQueue.currentPosition];
+	var retArr = Array.apply(null, new Array(queue.length));
+
+	retArr[0] = currentItem;
+
+	function randInt(min, max) {
+		return Math.floor(Math.random() * (max - min) + min);
+	}
+
+	for(var i = 0; i < queue.length; i++) {
+		if(queue[i] === currentItem) continue;
+
+		var randNum = randInt(0, queue.length);
+		if(retArr[randNum] !== undefined) {
+			while(retArr[randNum] !== undefined) {
+				randNum = randInt(0, queue.length);
+			}
+		}
+		retArr[randNum] = queue[i];
+	}
+
+	PlayQueue.currentPosition = 0;
+	PlayQueue.queue = retArr;
+});
