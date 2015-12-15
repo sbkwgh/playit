@@ -147,7 +147,14 @@ var Menu = function(queryString, objParams) {
 			div.style.top = coords.top - div.offsetHeight - 0.5*16 + 'px';
 			div.querySelector('.context_menu-arrow-gray').style.top = div.getBoundingClientRect().bottom - 2 + 'px';
 			div.querySelector('.context_menu-arrow-white').style.top = div.getBoundingClientRect().bottom - 3 + 'px';
+		} else {
+			div.querySelector('.context_menu-arrow-gray').style.top = div.getBoundingClientRect().top - 9 + 'px';
+			div.querySelector('.context_menu-arrow-white').style.top = div.getBoundingClientRect().top - 6 + 'px';
 		}
+		if(div.offsetHeight >= 16*10) {
+			div.style.overflow = 'auto';
+		}
+
 		div.target = ev.target;
 		ev.preventDefault();
 	});

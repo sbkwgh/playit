@@ -232,7 +232,7 @@ html, body {
 	}
 .context_menu {
 	width: 10rem;
-	overflow-x: hidden;
+	overflow: visible;
 	background-color: rgb(254, 254, 254);
 	color: rgb(36, 36, 36);
 	border: 2px solid rgb(177, 177, 177);
@@ -241,7 +241,6 @@ html, body {
 	z-index: 11;
 	margin-top: 0.3rem;
 	max-height: 20rem;
-	overflow-y: auto;
 	font-weight: 300;
 	font-size: 0.8rem;
 	box-shadow: 0px 0px 0.3rem 0.075rem rgba(100, 100, 100, 0.1);
