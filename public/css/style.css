@@ -466,7 +466,7 @@ html, body {
 			cursor: pointer;
 			padding: 0.25rem 0;
 		}
-	.song_more.song_more_album {
+	.song_more {
 		padding: 0.25rem 0.25rem 0.25rem 0.3rem;
 		padding-left: 0.4rem;
 		font-size: 1.125rem;
