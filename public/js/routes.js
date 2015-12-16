@@ -4,6 +4,17 @@ app.addRoute('/search/:query', function(templateContainer, templateHTML, data, d
 	var template = Handlebars.compile(templateHTML);
 
 	Request.get('/api/search', {q: data.query}, function(musicData) {
+		musicData.songs = musicData.songs.map(function(song) {
+			var minutes = Math.floor(song.duration / 60);
+			var seconds = Math.floor(song.duration % 60);
+			if(seconds < 10) {
+				seconds = '0' + seconds;
+			}
+
+			song.minutes = minutes + ':' + seconds;
+
+			return song;
+		})
 		musicData.query = decodeURIComponent(data.query);
 		templateContainer.innerHTML = template(musicData);
 		addHiddenAlbums('.search-group');
@@ -78,15 +89,6 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 		})
 		templateContainer.innerHTML = template(albumData);
 		document.querySelector('#loading').classList.add('loading-hidden');
-
-		var songMore = new Menu('td .song_more.song_more_album', {
-			'Add to current playlist': function() {
-				return playlists.tooltipPlaylists
-			},
-			'Add to a new playlist': {
-				'<input class="" id="new_playlist-input" placeholder="Playlist name"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
-			}
-		});
 		
 		setBgColFromImgBorder(document.querySelector('.album_header-album').src, '.album_header')
 		PlayQueue.highlightPlayingSong();
@@ -144,3 +146,11 @@ app.addRoute('/playlist/:id', function(templateContainer, templateHTML, data) {
 		done();
 	}
 })
+var songMore = new Menu('td .song_more.song_more_album', {
+	'Add to current playlist': function() {
+		return playlists.tooltipPlaylists
+	},
+	'Add to a new playlist': {
+		'<input class="" id="new_playlist-input" placeholder="Playlist name"><div class="button btn-green" id="new_playlist-button">Create playlist</div>': function() {}
+	}
+});
