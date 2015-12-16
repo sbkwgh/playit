@@ -466,6 +466,15 @@ html, body {
 			cursor: pointer;
 			padding: 0.25rem 0;
 		}
+	.song_more.song_more_album {
+		padding: 0.25rem 0.25rem 0.25rem 0.3rem;
+		padding-left: 0.4rem;
+		font-size: 1.125rem;
+		position: relative;
+		font-family: 'FontAwesome';
+		opacity: 0.87;
+		height: 1rem;
+	}
 
 .album_header {
 	margin: 0px -2rem;
