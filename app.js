@@ -183,7 +183,7 @@ app.get('/api/search', function(req, res) {
 
 		for(var i = 0; i < tracks.length; i++) {
 			var artists = [];
-			for(var j = 0; j < tracks[j].artists.length; j++) {
+			for(var j = 0; j < tracks[i].artists.length; j++) {
 				if(tracks[i].artists[j]) {
 					artists.push(tracks[i].artists[j].name);
 				}
