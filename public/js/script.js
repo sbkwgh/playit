@@ -122,8 +122,10 @@ document.querySelector('#rate_app').addEventListener('click', function(ev) {
 	) {
 		msgBox.parentElement.removeChild(msgBox);
 		localStorage.rateAppShown = 'true';
-	} else if(classList.contains('btn-green')) {
-		msgBox.parentElement.removeChild(msgBox);
-		localStorage.rateAppShown = 'true';
 	}
 });
+function removeRateMe() {
+	var msgBox = document.querySelector('#rate_app');
+	msgBox.parentElement.removeChild(msgBox);
+	localStorage.rateAppShown = 'true';
+}
