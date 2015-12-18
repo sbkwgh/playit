@@ -83,6 +83,7 @@ input[type='checkbox']:checked + label::after {
 	color: #333;
 	cursor: pointer;
 	height: 1.5rem;
+	text-decoration: none;
 	margin: 0px 0.125rem;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -197,7 +198,7 @@ html, body {
 
 #settings {
 	padding: 3rem;
-    padding-top: 2rem;
+	padding-top: 2rem;
 }
 	#settings .search-header {
 		padding-left: 0rem;
@@ -659,6 +660,32 @@ html, body {
 		cursor: default;
 		font-weight: 300;
 	}
+	#rate_app {
+		max-width: 15rem;
+		margin: 0 auto;
+		border: 1px solid gray;
+		border-radius: 0.25rem;
+		position: relative;
+		padding: 0.5rem;
+		margin: 0.75rem;
+	}
+		#rate_app h1 {
+			padding: 0;
+			margin:0;
+			margin-bottom: -1rem;
+			font-size: 1.125rem;
+		}
+		#rate_app span {
+			cursor: pointer;
+			color: gray;
+			position: absolute;
+			top: 0;
+			font-size: 1.5rem;
+			right: 0.5rem;
+		}
+		#rate_app-small_text {
+			font-size: 0.5rem;
+		}
 
 #app {
 	width: calc(100% - 15rem);

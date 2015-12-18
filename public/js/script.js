@@ -103,3 +103,27 @@ CurrentPlaying.clear();
 Menu('#play_queue', function() {
 	return PlayQueue.tooltipQueue
 })
+
+if(!localStorage.rateAppCount) localStorage.rateAppCount = 1;
+if(localStorage.rateAppShown) {
+	document.querySelector('#rate_app').style.display = 'none';
+}
+if(localStorage.rateAppCount < 3) {
+	localStorage.rateAppCount++;
+	document.querySelector('#rate_app').style.display = 'none';
+}
+
+document.querySelector('#rate_app').addEventListener('click', function(ev) {
+	var msgBox = document.querySelector('#rate_app');
+	var classList = ev.target.classList;
+	if(
+		ev.target.tagName === 'SPAN'  ||
+		classList.contains('btn-close')
+	) {
+		msgBox.parentElement.removeChild(msgBox);
+		localStorage.rateAppShown = 'true';
+	} else if(classList.contains('btn-green')) {
+		msgBox.parentElement.removeChild(msgBox);
+		localStorage.rateAppShown = 'true';
+	}
+});
