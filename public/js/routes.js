@@ -1,9 +1,7 @@
 var app = new Router(document.querySelector('#app'));
-app.addRoute('/search/:query', function(templateContainer, templateHTML, data, done) {
-	document.querySelector('#loading').classList.remove('loading-hidden');
-	var template = Handlebars.compile(templateHTML);
 
-	Request.get('/api/search', {q: data.query}, function(musicData) {
+cache.register('/api/search/:query', function(params, cb) {
+	Request.get('/api/search', {q: params.query}, function(musicData) {
 		musicData.songs = musicData.songs.map(function(song) {
 			var minutes = Math.floor(song.duration / 60);
 			var seconds = Math.floor(song.duration % 60);
@@ -16,6 +14,14 @@ app.addRoute('/search/:query', function(templateContainer, templateHTML, data, d
 			return song;
 		})
 		musicData.query = decodeURIComponent(data.query);
+		cb(musicData)
+	});
+})
+app.addRoute('/search/:query', function(templateContainer, templateHTML, data, done) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
+	var template = Handlebars.compile(templateHTML);
+
+	cache('/api/search/' + data.query, function(musicData) {
 		templateContainer.innerHTML = template(musicData);
 		addHiddenAlbums('.search-group');
 		document.querySelector('#loading').classList.add('loading-hidden');
@@ -27,6 +33,7 @@ app.addRoute('/search/:query', function(templateContainer, templateHTML, data, d
 		done();
 	}
 });
+
 app.addRoute('/settings', function(templateContainer, templateHTML, data, done) {
 	templateContainer.innerHTML = templateHTML;
 }, function(done) {
@@ -35,6 +42,7 @@ app.addRoute('/settings', function(templateContainer, templateHTML, data, done) 
 		done();
 	}
 });
+
 app.addRoute('/404/:route', function(templateContainer, templateHTML, data, done) {
 	var template = Handlebars.compile(templateHTML);
 	console.log(data)
@@ -45,11 +53,17 @@ app.addRoute('/404/:route', function(templateContainer, templateHTML, data, done
 		done();
 	}
 });
+
+cache.register('/api/charts', function(data, cb) {
+	Request.get('/api/charts', {}, function(charts) {
+		cb({songs: charts})
+	})
+})
 app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
 	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
-	Request.get('/api/charts', {}, function(charts) {
-		templateContainer.innerHTML = template({songs: charts});
+	cache('/api/charts', function(data) {
+		templateContainer.innerHTML = template(data);
 		document.querySelector('#loading').classList.add('loading-hidden');
 	})
 }, function(done) {
@@ -58,10 +72,8 @@ app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
 		done();
 	}
 });
-app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done) {
-	document.querySelector('#loading').classList.remove('loading-hidden');
-	var template = Handlebars.compile(templateHTML);
 
+cache.register('/api/album/:id', function(data, cb) {
 	Request.get('/api/album/' + data.id, {}, function(albumData) {
 		albumData.totalTime = 
 			Math.floor(
@@ -87,6 +99,14 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 
 			return song;
 		})
+		cb(albumData)
+	})
+})
+app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done) {
+	document.querySelector('#loading').classList.remove('loading-hidden');
+	var template = Handlebars.compile(templateHTML);
+
+	cache('/api/album/' + data.id, function(albumData) {
 		templateContainer.innerHTML = template(albumData);
 		document.querySelector('#loading').classList.add('loading-hidden');
 		
@@ -99,11 +119,20 @@ app.addRoute('/album/:id', function(templateContainer, templateHTML, data, done)
 		done();
 	}
 });
+
+cache.register('/api/topAlbums', function(data, cb) {
+	Request.get('/api/topAlbums', {}, function(topAlbums) {
+		cb({albums: topAlbums});
+	})
+})
 app.addRoute('index', function(templateContainer, templateHTML, data) {
 	document.querySelector('#loading').classList.remove('loading-hidden');
-	Request.get('/api/topAlbums', {}, function(topAlbums) {
+	cache('/api/topAlbums', function(topAlbums) {
 		var template = Handlebars.compile(templateHTML);
-		templateContainer.innerHTML = template({albums: topAlbums, recentlyPlayed: store.get('recentlyPlayed')});
+
+		topAlbums.recentlyPlayed = store.get('recentlyPlayed');
+		templateContainer.innerHTML = template(topAlbums);
+		
 		addHiddenAlbums('.search-group');
 		addHiddenAlbums('.search-group:last-child');
 		PlayQueue.highlightPlayingSong();
