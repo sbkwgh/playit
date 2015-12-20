@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var https = require('https');
 var http = require('http');
 var path = require('path');
+var compress = require('compression');
 
 var app = express();
 
@@ -33,7 +34,7 @@ function getHTTPHTML(url, cb) {
 	})
 }
 
-
+app.use(compress());
 app.use(express.static('public'));
 
 app.get('/', function(req, res) {
