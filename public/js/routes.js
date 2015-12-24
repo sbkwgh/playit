@@ -13,7 +13,7 @@ cache.register('/api/search/:query', function(params, cb) {
 
 			return song;
 		})
-		musicData.query = decodeURIComponent(data.query);
+		musicData.query = decodeURIComponent(params.query);
 		cb(musicData)
 	});
 })
