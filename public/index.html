@@ -182,7 +182,7 @@
 							<div class='album_header-right-title'>{{title}}</div>
 							<div class='album_header-right-info'>
 								Shared playlist{{#if dateCreated}}, created {{date}}{{/if}}
-								<br/><div class='button' style='margin: 0.2rem 0px 0px;' title="This will create a copy separate from the owner's playlist">Add to my playlists</div>
+								<br/><div class='button' id='save-playlist' style='margin: 0.2rem 0px 0px;' title="This will create a copy separate from the owner's playlist">Add to my playlists</div>
 							</div>
 						</div>
 					</div>
@@ -217,7 +217,7 @@
 		</div>
 	</script>
 	<script type='text/template' data-template='playlist/:id'>
-		<div class='search-group'>
+		
 			{{#if error}}
 				<div class='center-container'>
 					<div class='center-child'>
@@ -226,6 +226,7 @@
 					</div>
 				</div>
 			{{else}}
+			<div class='search-group'>
 				<div class='album_header'>
 					<div class='album_header_background'></div>
 					<div class='album_header_background-image '></div>
@@ -322,7 +323,8 @@
 	<script type='text/template' data-template='charts'>
 		<h1 class='search-header' rules='groups'>uk chart positions</h1>
 			<div class='search-group'>
-					<table t-if='songs.length' class='songs'>
+				{{#if songs.length}}
+					<table class='songs'>
 						<thead>
 							<tr>
 								<th>position</th>
@@ -332,22 +334,29 @@
 							</tr>
 						</thead>
 						<tbody>
-								<tr t-repeat='songs' data-id='{{self.id}}' t-class='self.id: charts-unavailable' class='charts' data-cover_image='{{self.album.coverImage}}'>
+							{{#each songs}}
+								<tr data-id='{{this.id}}' class='{{#unless this.id}}charts-unavailable {{/unless}}charts' data-cover_image='{{this.album.coverImage}}'>
 									<td class='charts-movement_holder'>
-										<div class='charts-movement charts-movement_{{self.statusPolarity}}'>
-											{{self.position}}
+										<div class='charts-movement charts-movement_{{this.statusPolarity}}'>
+											{{this.position}}
 										</div>
 									</td>
 									<td>
-											<img t-if='self.coverImage'src='{{self.coverImage}}'>
-											<img t-ifnot='self.coverImage'class='no_image'>
+										{{#if this.coverImage}}
+											<img src='{{this.coverImage}}'>
+										{{else}}
+											<img class='no_image'>
+										{{/if}}
 									</td>
-									<td>{{self.title}}</td>
-									<td>{{self.artist}}</td>
+									<td>{{this.title}}</td>
+									<td>{{this.artist}}</td>
 								</tr>
+							{{/each}}
 						</tbody>
 					</table>
-					<span t-ifnot='songs.length' class="search-not-found">No albums found - this is probably an error on our side</span>
+				{{else}}
+					<span class="search-not-found">No albums found - this is probably an error on our side</span>
+				{{/if}}
 			</div>
 		</div>
 	</script>

@@ -164,6 +164,13 @@ var playlists = new (function() {
 	this.add = function(item) {
 		item.id = getId();
 
+		/*function incrementName() {
+			this.playlists.forEach(function(playlist) {
+				if(playlist.title === item.title)
+			});
+		}*/
+		
+
 		item.dateCreated = new Date();
 
 		store.add('playlists', item);

@@ -63,7 +63,7 @@ app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
 	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
 	cache('/api/charts', function(data) {
-		templateContainer.innerHTML = tmplt(templateHTML, data);
+		templateContainer.innerHTML = template(data);
 		document.querySelector('#loading').classList.add('loading-hidden');
 	})
 }, function(done) {
@@ -198,6 +198,11 @@ app.addRoute('/shared/:id', function(templateContainer, templateHTML, data) {
 				foundPlaylist.dateCreated = new Date(foundPlaylist.dateCreated);
 				foundPlaylist.date = foundPlaylist.dateCreated.toLocaleString().slice(0, 10);
 			}
+
+			playlists.currentSharedPlaylist = Object.assign({}, foundPlaylist);
+			delete playlists.currentSharedPlaylist._id;
+			delete playlists.currentSharedPlaylist.id;
+			delete playlists.currentSharedPlaylist.key;
 
 			templateContainer.innerHTML = template(foundPlaylist);
 			PlayQueue.highlightPlayingSong();

@@ -93,7 +93,14 @@ new Menu('.share-playlist', function() {
 	};
 
 	return ret;
-})
+});
+
+document.querySelector('#app').addEventListener('click', function(ev) {
+	if(ev.target.contains($('#save-playlist'))) {
+		playlists.add(playlists.currentSharedPlaylist);
+		playlists.updateEl();
+	}
+});
 
 //Play/pause on space bar
 document.body.addEventListener('keydown', function(ev) {
