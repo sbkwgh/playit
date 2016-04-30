@@ -39,6 +39,60 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 		playlists.remove(location.hash.split('/')[1])
 		location.hash = '';
 	}
+});
+new Menu('.share-playlist', function() {
+	var playlistId = location.hash.split('/')[1];
+	var playlistItem = playlists.find(playlistId);
+	var url;
+
+	if(playlistItem.key) {
+		url = location.origin + '/#shared/' + playlistItem._id;
+	} else {
+		playlists.makeShared(playlistId, function() {
+			$('.context_menu').parentElement.removeChild($('.context_menu'));
+			$('.share-playlist').click();
+			playlists.updateEl();
+		});
+
+		return {'Loading...':function(){}};
+	}
+
+	
+	var html = 'Copy url to share: <input type="text" onclick="this.select();" value="' + url + '"/>';
+	var ret = {};
+	
+	ret['<i class="fa fa-lock fa-fw"></i> Make private again'] = function(ev) {
+			if(document.body.contains(ev.target)) {
+				playlists.makeUnshared(playlistId);
+				ev.removeContextMenu();
+			}
+		}
+	ret[html] = function(){};
+
+	ret['Share on Facebook'] = function(ev){
+		if(document.body.contains(ev.target)) {
+			var facebook =
+				'https://www.facebook.com/sharer/sharer.php?u=' +
+				encodeURIComponent(url);
+			window.open(facebook);
+			ev.removeContextMenu();
+			if('ga' in window) ga('send', 'event', 'outbound', 'click', facebook);
+		}
+	};
+	ret['Share on Twitter'] = function(ev){
+		if(document.body.contains(ev.target)) {
+			var twitter = 
+				'https://twitter.com/intent/tweet?text=' +
+				'Check out this playlist on Playit Music: ' +
+				encodeURIComponent(url);
+
+			window.open(twitter);
+			if('ga' in window) ga('send', 'event', 'outbound', 'click', twitter);
+			ev.removeContextMenu();
+		}
+	};
+
+	return ret;
 })
 
 //Play/pause on space bar

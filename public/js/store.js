@@ -82,6 +82,8 @@ var playlists = new (function() {
 		document.querySelector('#playlists').innerHTML = template({playlists: self.playlists});
 	}
 
+	this.updateEl = updateEl;
+
 	getId = function() {
 		var id = parseInt((Math.random() * 10e15)).toString(32);
 		if(this.find(id)) {
@@ -121,24 +123,84 @@ var playlists = new (function() {
 		return returnPlaylist;
 	};
 
+	this.findAll = function() {
+		return this.playlists;
+	}
+
 	this.update = function(updatedItem) {
 		var index = getIndex(updatedItem.id);
 
+		var apiJSONCopy = Object.assign({}, updatedItem);
+		delete apiJSONCopy.key;
+		delete apiJSONCopy._id;
+
 		store.update('playlists', index, updatedItem);
+
+		if(updatedItem.key) {
+			Request.put('/api/share', {
+				_id: updatedItem._id,
+				key: updatedItem.key,
+				json: apiJSONCopy
+			});
+		}
+		
+
 		updateEl();
 	};
 
 	this.remove = function(id) {
 		var index = getIndex(id);
+		var playlistItem = this.find(id);
 
 		store.remove('playlists', index);
+		
+		if(playlistItem.key) {
+			Request.delete('/api/share', playlistItem);
+		}
+		
 		updateEl();
 	};
 
 	this.add = function(item) {
 		item.id = getId();
+
+		item.dateCreated = new Date();
+
 		store.add('playlists', item);
 		updateEl();
+	};
+
+	this.makeShared = function(id, cb) {
+		var self = this;
+		var playlistItem = this.find(id);
+
+		Request.post('/api/share', {json: playlistItem}, function(result) {
+			var savedPlaylist = JSON.parse(result.json);
+			savedPlaylist._id = result._id;
+			savedPlaylist.key = result.key;
+
+			self.update(savedPlaylist);
+
+			cb();
+		})
+	};
+
+	this.makeUnshared = function(id) {
+		var self = this;
+		var playlistItem = this.find(id);
+
+		if(!playlistItem.key) return;
+
+		Request.delete('/api/share', playlistItem, function(result) {
+			if(!result.error) {
+				delete playlistItem.key;
+				delete playlistItem._id;
+
+				self.update(playlistItem);
+				self.updateEl();
+			}
+			
+		})
 	}
 
 	updateEl();

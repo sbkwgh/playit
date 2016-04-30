@@ -25,21 +25,22 @@ var Router = function(templateContainer) {
 			}
 
 			routeHandler = self.getRouteHandlerFromRoute(hash);
-			var template = document.querySelector('script[data-template="' + (routeHandler || {}).templateName + '"]');
 
 			if('ga' in window) ga('send', 'pageview', '/' + hash);
 
-			if(!hash || !routeHandler || !template) {
+			if(!hash || !routeHandler) {
 				if(hash[0] === '/') hash = hash.slice(1);
-				location.hash = '404/' + hash;
-			} else {
-				if(routeHandler.handler.onLoad && event === 'load') {
-					routeHandler.handler.onLoad(function() {
-						routeHandler.handler.allEvents(self.templateContainer, template.innerHTML, routeHandler.params);
-					}, self.templateContainer, template.innerHTML, routeHandler.params);
-				} else {
+				routeHandler = self.getRouteHandlerFromRoute('404/' + hash);
+			}
+
+			var template = document.querySelector('script[data-template="' + (routeHandler || {}).templateName + '"]');
+
+			if(routeHandler.handler.onLoad && event === 'load') {
+				routeHandler.handler.onLoad(function() {
 					routeHandler.handler.allEvents(self.templateContainer, template.innerHTML, routeHandler.params);
-				}
+				}, self.templateContainer, template.innerHTML, routeHandler.params);
+			} else {
+				routeHandler.handler.allEvents(self.templateContainer, template.innerHTML, routeHandler.params);
 			}
 		})
 	});

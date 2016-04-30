@@ -45,7 +45,7 @@ app.addRoute('/settings', function(templateContainer, templateHTML, data, done) 
 
 app.addRoute('/404/:route', function(templateContainer, templateHTML, data, done) {
 	var template = Handlebars.compile(templateHTML);
-	console.log(data)
+	
 	templateContainer.innerHTML = template(data);
 }, function(done) {
 	YouTube.init();
@@ -63,7 +63,7 @@ app.addRoute('/charts', function(templateContainer, templateHTML, data, done) {
 	document.querySelector('#loading').classList.remove('loading-hidden');
 	var template = Handlebars.compile(templateHTML);
 	cache('/api/charts', function(data) {
-		templateContainer.innerHTML = template(data);
+		templateContainer.innerHTML = tmplt(templateHTML, data);
 		document.querySelector('#loading').classList.add('loading-hidden');
 	})
 }, function(done) {
@@ -145,9 +145,14 @@ app.addRoute('index', function(templateContainer, templateHTML, data) {
 	}
 });
 
-app.addRoute('/playlist/:id', function(templateContainer, templateHTML, data) {
+function playlistHandler(templateContainer, templateHTML, data) {
 	var template = Handlebars.compile(templateHTML);
-	var playlistData = playlists.find(data.id);
+
+	if(typeof data.id === 'object') {
+		var playlistData = data.id;
+	} else {
+		var playlistData = playlists.find(data.id);
+	}
 
 	var songMore = new Menu('td .song_more.song_more_playlist', {
 		'Remove from playlist': function(ev) {
@@ -169,12 +174,43 @@ app.addRoute('/playlist/:id', function(templateContainer, templateHTML, data) {
 
 	templateContainer.innerHTML = template(playlistData);
 	PlayQueue.highlightPlayingSong();
+};
+
+app.addRoute('/playlist/:id', playlistHandler, function(done) {
+	YouTube.init();
+	YouTube.continueCb = function() {
+		done();
+	}
+});
+app.addRoute('/shared/:id', function(templateContainer, templateHTML, data) {
+	var template = Handlebars.compile(templateHTML);
+
+	document.querySelector('#loading').classList.remove('loading-hidden');
+
+	Request.get('/api/share/' + data.id, {}, function(result) {
+		document.querySelector('#loading').classList.add('loading-hidden');
+		if(result.error) {
+			templateContainer.innerHTML = template(result);
+		} else {
+			var foundPlaylist = JSON.parse(result.json);
+
+			if(foundPlaylist.dateCreated) {
+				foundPlaylist.dateCreated = new Date(foundPlaylist.dateCreated);
+				foundPlaylist.date = foundPlaylist.dateCreated.toLocaleString().slice(0, 10);
+			}
+
+			templateContainer.innerHTML = template(foundPlaylist);
+			PlayQueue.highlightPlayingSong();
+		}
+
+			
+	});
 }, function(done) {
 	YouTube.init();
 	YouTube.continueCb = function() {
 		done();
 	}
-})
+});
 var songMore = new Menu('td .song_more.song_more_album', {
 	'Add to current playlist': function() {
 		return playlists.tooltipPlaylists

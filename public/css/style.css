@@ -74,54 +74,73 @@ input[type='checkbox']:checked + label::after {
 	box-shadow: none;
 }
 
+.center-container {
+	height: 100%;
+	width: 100%;
+	margin-top: -1.4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+	.center-child {
+		background-color: rgb(248, 248, 248);
+		border-radius: 0.3rem;
+		padding: 1.5rem 3rem 3rem;
+	}
+		.center-child pre {
+			display: inline-block;
+		}
+
 .button {
+	font-family: 'Roboto', sans-serif;
 	border: 1px solid #808080;
-	font-weight: normal;
+	font-weight: 300;
 	display: inline-block;
 	border-radius: 0.25rem;
 	background-color: #F5F5F5;
 	color: #333;
 	cursor: pointer;
 	height: 1.5rem;
-	text-decoration: none;
 	margin: 0px 0.125rem;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
 	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
 	line-height: 1.5rem;
-	box-shadow: 0px -2px #B9B9B9 inset;
+	box-shadow: 0px -1px #B9B9B9 inset;
 	transition: all 0.2s ease 0s;
 	padding: 0px 0.5rem;
 	height: 1.75rem;
 }
 	.button:hover {
-		background-color: #DEDDDD;
+		box-shadow: 0px -2px #B9B9B9 inset;
 	}
-
+	.button:active {
+		background-color: #DEDDDD;
+		outline: none;
+	}
 	.btn-green {
 		color: #FFF;
 		border-color: #3E875C;
 		background-color: #25C869;
-		box-shadow: 0 -2px #2CA15F inset;
+		box-shadow: 0 -1px #2CA15F inset;
 	}
 		.btn-green:hover {
 			border-color: #3E875C;
 			box-shadow: 0 -2px #2CA15F inset;
+		}
+		.btn-green:active {
 			background-color: rgb(45, 185, 102);
 		}
 	.btn-red {
 		color: #FFF;
 		background-color: #D64541;
 		border-color: #AA4B48;
-		box-shadow: 0 -2px #AE4541 inset;
+		box-shadow: 0 -1px #AE4541 inset;
 	}
 		.btn-red:hover {
-			box-shadow: 0 -2px #A73A36 inset;
-			background-color: #CF3D39;
+			box-shadow: 0 -2px #B91644 inset;
 			border-color: #AA4B48;
+		}
+		.btn-red:active {
+			background-color: #C33E3B;
 		}
 
 
@@ -274,6 +293,7 @@ html, body {
 	.context_menu-item {
 		border-bottom: 1px solid rgb(155, 155, 155);
 		padding: 0.15rem 0.25rem;
+		cursor: default;
 	}
 		.context_menu-item:hover {
 			background-color: rgb(243, 243, 243);
@@ -288,6 +308,22 @@ html, body {
 		.context_menu-item span {
 			font-size: 0.8rem;
 		}
+		.context_menu-item input[type='text'] {
+			width: 9.2rem;
+			border-radius: 0.2rem;
+			border: 1px solid gray;
+			margin: 0.2rem 0;
+			height: 1.35rem;
+			padding: 0 0.25rem;
+			outline: none !important;
+		}
+			.context-menu_item input:active,
+			.context-menu_item input:focus  {
+				border-color: #3E875C !important;
+			}
+			.context-menu_item input:hover {
+				border-color: rgb(45, 185, 102) !important;
+			}
 	.context_menu-next_level {
 		top: 0;
 		position: absolute;

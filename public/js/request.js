@@ -17,10 +17,17 @@ Request.request = function(method, url, data, cb) {
 	var http = new XMLHttpRequest();
 
 	http.addEventListener('load', function() {
+		var json;
+
+		try {
+			json = JSON.parse(this.responseText)
+		} catch(err) {
+			console.log(err);
+			console.log(this.responseText);
+		}
+
 		if(cb) {
-			cb(JSON.parse(this.responseText));
-		} else {
-			data(JSON.parse(this.responseText))
+			cb(json);
 		}
 	})
 
@@ -48,8 +55,6 @@ Request.get = function(url, data, cb) {
 	http.addEventListener('load', function() {
 		if(cb) {
 			cb(JSON.parse(this.responseText));
-		} else {
-			data(JSON.parse(this.responseText));
 		}
 	})
 
