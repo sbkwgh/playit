@@ -2,7 +2,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var path = require('path');
-var morgan = require('morgan');
 var compress = require('compression');
 
 var app = express();
@@ -15,7 +14,7 @@ app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '../public', 'index.html'));
 })
 
-app.use(morgan('dev'));
+if(!process.env.PRODUCTION) app.use(require('morgan')('dev'));
 
 //Require routes
 require('./routes.js')(app);
