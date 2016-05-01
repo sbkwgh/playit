@@ -96,7 +96,7 @@ new Menu('.share-playlist', function() {
 });
 
 document.querySelector('#app').addEventListener('click', function(ev) {
-	if(ev.target.contains($('#save-playlist'))) {
+	if(ev.target.matches($('#save-playlist, #save-playlist i'))) {
 		playlists.add(playlists.currentSharedPlaylist);
 		playlists.updateEl();
 	}
