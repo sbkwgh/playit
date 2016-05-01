@@ -35,7 +35,13 @@ app.addRoute('/search/:query', function(templateContainer, templateHTML, data, d
 });
 
 app.addRoute('/settings', function(templateContainer, templateHTML, data, done) {
-	templateContainer.innerHTML = templateHTML;
+	var template = Handlebars.compile(templateHTML);
+	var exportObj = {
+		recentlyPlayed: store.get('recentlyPlayed'),
+		playlists: store.get('playlists')
+	};
+
+	templateContainer.innerHTML = template({json:JSON.stringify(exportObj)});
 }, function(done) {
 	YouTube.init();
 	YouTube.continueCb = function() {

@@ -83,8 +83,11 @@ input[type='checkbox']:checked + label::after {
 		transition: all 0.5s ease;
 	}
 		.toggle_tab-content-show {
-			max-height: 10rem;
+			max-height: 20rem;
 		}
+	.toggle_tab-no_margin.toggle_tab-content {
+		margin-left: 0.125rem;
+	}
 
 .center-container {
 	height: 100%;
@@ -114,6 +117,7 @@ input[type='checkbox']:checked + label::after {
 	cursor: pointer;
 	height: 1.5rem;
 	margin: 0px 0.125rem;
+	text-decoration: none;
 	-moz-user-select: none;
 	line-height: 1.5rem;
 	box-shadow: 0px -1px #B9B9B9 inset;

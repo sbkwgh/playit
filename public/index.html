@@ -146,11 +146,18 @@
 						Export data
 					</div>
 					<div class='toggle_tab-content'>
-						This will save a file to your Downloads folder<br/>
-						<a class='button' id='settings-export-playlists' hef='' download='playitmusic.json'>Download JSON file</a><br/><br/>
-						<div class='button'>Copy JSON to clipboard</div>
-					</div>
-				</div>
+						<p>
+							This will save a file to your Downloads folder<br/>
+							<a class='button' id='settings-export-playlists' hef='' download='playitmusic.json'>Download JSON file</a>
+						</p>
+						<p>
+							<div class='toggle_tab'>
+								<div class='button toggle_tab-toggle'>Copy JSON to clipboard</div>
+								<div class='toggle_tab-content toggle_tab-no_margin'>
+									<textarea style='height: 10rem;width: 25rem' onclick='this.select()'>{{json}}</textarea>
+								</div>
+							</div>
+						</p>
 			</p>
 		</div>
 	</script>
