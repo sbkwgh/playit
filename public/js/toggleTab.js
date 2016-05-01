@@ -10,9 +10,5 @@ document.addEventListener('click', function(ev) {
 	button = toggleTab.querySelector('.toggle_tab-toggle');
 	content = toggleTab.querySelector('.toggle_tab-content');
 
-	if(window.getComputedStyle(content).display === 'none') {
-		content.style.display = 'block';
-	} else {
-		content.style.display = 'none';
-	}
+	content.classList.toggle('toggle_tab-content-show')
 })

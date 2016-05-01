@@ -74,6 +74,18 @@ input[type='checkbox']:checked + label::after {
 	box-shadow: none;
 }
 
+.toggle_tab {}
+	.toggle_tab-content {
+		margin-top: 0.5rem;
+		margin-left: 1rem;
+		max-height: 0;
+		overflow: hidden;
+		transition: all 0.5s ease;
+	}
+		.toggle_tab-content-show {
+			max-height: 10rem;
+		}
+
 .center-container {
 	height: 100%;
 	width: 100%;

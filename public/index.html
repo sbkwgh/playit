@@ -139,6 +139,19 @@
 				<div class='button btn-red' id='settings-delete-playlists'><i class='fa fa-fw fa-trash-o'></i>Delete all playlists</div>
 				<span class='settings-success' id='settings-delete-playlists_success'>Succesfully deleted playlists</span>
 			</p>
+			<p>
+				<div class='toggle_tab'>
+					<div class='button toggle_tab-toggle'>
+						<i class='fa fa-arrow-circle-o-down'></i>
+						Export data
+					</div>
+					<div class='toggle_tab-content'>
+						This will save a file to your Downloads folder<br/>
+						<a class='button' id='settings-export-playlists' hef='' download='playitmusic.json'>Download JSON file</a><br/><br/>
+						<div class='button'>Copy JSON to clipboard</div>
+					</div>
+				</div>
+			</p>
 		</div>
 	</script>
 	<script type='text/template' data-template='index'>
@@ -417,7 +430,7 @@
 	<script type="text/javascript" src="/js/handlebars.js"></script>
 	<script type="text/javascript" src="/js/util.js"></script>
 	<script type="text/javascript" src="/js/tmplt.js"></script>
-	<script type="text/javascript" src="/js/toggleTag.js"></script>
+	<script type="text/javascript" src="/js/toggleTab.js"></script>
 	<script type="text/javascript" src="/js/store.js"></script>
 	<script type="text/javascript" src="/js/request.js"></script>
 	<script type="text/javascript" src="/js/youtube.js"></script>

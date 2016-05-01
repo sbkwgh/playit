@@ -190,6 +190,13 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 				document.querySelector('#settings-delete-playlists_success').style.opacity = '0';
 			}, 2000);
 		}
+	} else if(ev.target.id === 'settings-export-playlists') {
+		var exportObj = {
+			recentlyPlayed: store.get('recentlyPlayed'),
+			playlists: store.get('playlists')
+		};
+		var string = window.btoa(JSON.stringify(exportObj));
+		ev.target.href = 'data:application/json;charset=utf8;base64,' + string;
 	}
 })
 
