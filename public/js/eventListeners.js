@@ -169,27 +169,32 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 
 document.querySelector('#app').addEventListener('click', function(ev) {
 	if(ev.target.id === 'settings-delete-recently_played') {
-		delete localStorage.recentlyPlayed;
-		document.querySelector('#settings-delete-recently_played_success').style.opacity = '1';
-		setTimeout(function() {
-			document.querySelector('#settings-delete-recently_played_success').style.opacity = '0';
-		}, 3000);
+		confirmBox('Are you sure you want to clear recently played items?', function(res) {
+			if(res) {
+				delete localStorage.recentlyPlayed;
+				document.querySelector('#settings-delete-recently_played_success').style.opacity = '1';
+				setTimeout(function() {
+					document.querySelector('#settings-delete-recently_played_success').style.opacity = '0';
+				}, 3000);
+			}
+		})
 	}
 })
 document.querySelector('#app').addEventListener('click', function(ev) {
 	if(ev.target.id === 'settings-delete-playlists') {
-		var deletePlaylists = confirm('Are you sure you want to delete playlists? This action cannot be undone.');
-		if(deletePlaylists) {
-			var playlistItems = playlists.playlists;
-			for(var i = 0; i < playlistItems.length; i++) {
-				playlists.remove(i);
-			}
+		confirmBox('Are you sure you want to delete all playlists?<br/>This action cannot be undone.', function(res) {
+			if(res) {
+				var playlistItems = playlists.playlists;
+				for(var i = 0; i < playlistItems.length; i++) {
+					playlists.remove(i);
+				}
 
-			document.querySelector('#settings-delete-playlists_success').style.opacity = '1';
-			setTimeout(function() {
-				document.querySelector('#settings-delete-playlists_success').style.opacity = '0';
-			}, 2000);
-		}
+				document.querySelector('#settings-delete-playlists_success').style.opacity = '1';
+				setTimeout(function() {
+					document.querySelector('#settings-delete-playlists_success').style.opacity = '0';
+				}, 2000);
+			}
+		}, 'red');
 	} else if(ev.target.id === 'settings-export-playlists') {
 		var exportObj = {
 			recentlyPlayed: store.get('recentlyPlayed'),
