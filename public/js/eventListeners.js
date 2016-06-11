@@ -36,8 +36,17 @@ document.querySelector('#app').addEventListener('click', function(ev) {
 		ev.target.classList.contains('delete-playlist') ||
 		ev.target.parentElement.classList.contains('delete-playlist')
 	) {
-		playlists.remove(location.hash.split('/')[1])
-		location.hash = '';
+		confirmBox(
+			'Are you sure you want to delete this playlist?<br/>This can\'t be undone.',
+			function(res) {
+				if(res) {
+					playlists.remove(location.hash.split('/')[1])
+					location.hash = '';
+				}
+			},
+			'red'
+		);
+		
 	}
 });
 new Menu('.share-playlist', function() {
